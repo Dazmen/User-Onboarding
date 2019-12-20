@@ -13,7 +13,12 @@ const Onboarding = ({ values, errors, touched, status}) => {
 
     return(
         <div className='formCont'>
+
             <Form className='logInForm'>
+
+                {touched.user && errors.user &&(
+                    <p>{errors.user}</p>
+                )}
                 <label>Username</label>
                 <Field
                     id='user'
@@ -22,6 +27,9 @@ const Onboarding = ({ values, errors, touched, status}) => {
                     placeholder='User Name'
                 />
 
+                {touched.email && errors.email &&(
+                    <p>{errors.email}</p>
+                )}
                 <label>Email</label>
                 <Field
                     id='email'
@@ -30,6 +38,9 @@ const Onboarding = ({ values, errors, touched, status}) => {
                     placeholder='Email'
                 />
 
+                {touched.pass && errors.pass &&(
+                    <p>{errors.pass}</p>
+                )}
                 <label>Password</label>
                 <Field
                     id='pass'
@@ -37,6 +48,10 @@ const Onboarding = ({ values, errors, touched, status}) => {
                     name='pass'
                     placeholder='Password'
                 />
+
+                {touched.TOS && errors.TOS &&(
+                    <p>{errors.TOS}</p>
+                )}
                 <p>
                     <label>by clicking you have agreed to the Terms of Service.
                     <Field
@@ -74,8 +89,8 @@ const FormikOnboarding = withFormik({
         };
     },
     validationSchema: Yup.object().shape({
-        name: Yup.string().required(),
-        pass: Yup.string().required(),
+        user: Yup.string().required('*custom* REQUIRED'),
+        pass: Yup.string().required('*custom* REQUIRED),
         email: Yup.string().email(),
         TOS: Yup.boolean(true),
     }),
@@ -84,6 +99,7 @@ const FormikOnboarding = withFormik({
         axios
             .post('https://reqres.in/api/users', values)
             .then(response => {
+                console.log(response)
                 setStatus(response.data);
                 resetForm();
             })
